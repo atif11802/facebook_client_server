@@ -16,6 +16,9 @@ const userSchema = new mongoose.Schema(
 			type: String,
 			required: true,
 		},
+		about: {
+			type: String,
+		},
 		image: {
 			res: {
 				type: String,
@@ -24,10 +27,38 @@ const userSchema = new mongoose.Schema(
 				type: String,
 			},
 		},
-		shared: {
-			type: mongoose.Schema.Types.ObjectId,
-			ref: "Post",
+		coverPhoto: {
+			res: {
+				type: String,
+			},
+			public: {
+				type: String,
+			},
 		},
+		shared: [
+			{
+				type: mongoose.Schema.Types.ObjectId,
+				ref: "Post",
+			},
+		],
+		friendReqSent: [
+			{
+				type: mongoose.Schema.Types.ObjectId,
+				ref: "User",
+			},
+		],
+		friendReqReceived: [
+			{
+				type: mongoose.Schema.Types.ObjectId,
+				ref: "User",
+			},
+		],
+		friends: [
+			{
+				type: mongoose.Schema.Types.ObjectId,
+				ref: "User",
+			},
+		],
 	},
 	{
 		timestamps: true,

@@ -40,11 +40,12 @@ exports.addPost = async (req, res) => {
 };
 
 exports.getOwnPost = async (req, res) => {
-	const { id } = req.user;
+	const { userId } = req.params;
 	try {
-		const post = await Post.find({ postedBy: id })
+		const post = await Post.find({ postedBy: userId })
 			.sort({ createdAt: -1 })
-			.populate("postedBy", "_id name");
+			.populate("postedBy", "_id name")
+			.populate("comments.commentedBy", "_id name");
 
 		res.json({
 			success: true,
@@ -133,7 +134,8 @@ exports.getAllPost = async (req, res) => {
 	try {
 		const post = await Post.find()
 			.sort({ createdAt: -1 })
-			.populate("postedBy", "_id name");
+			.populate("postedBy", "_id name")
+			.populate("comments.commentedBy", "_id name");
 
 		res.json({
 			success: true,

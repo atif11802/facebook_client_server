@@ -17,7 +17,7 @@ router.post(
 	upload.array("postPictures", 12),
 	addPost
 );
-router.get("/getOwnPost", requireSignin, getOwnPost);
+router.get("/getOwnPost/:userId", requireSignin, getOwnPost);
 router.patch(
 	"/updatePost/:postId",
 	requireSignin,
