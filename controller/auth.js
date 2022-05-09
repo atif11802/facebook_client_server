@@ -30,7 +30,7 @@ exports.signup = async (req, res) => {
 		newUser.password = undefined;
 
 		res.status(201).json({
-			newUser,
+			user: newUser,
 			token,
 		});
 	} catch (err) {
