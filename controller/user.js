@@ -139,8 +139,6 @@ exports.about = async (req, res, next) => {
 
 		user.about = req.body.about;
 
-		console.log(user);
-
 		const data = await user.save();
 
 		data.password = undefined;
@@ -166,7 +164,6 @@ exports.FriendReqSent = async (req, res, next) => {
 				success: false,
 			});
 		}
-
 		const user = await User.findByIdAndUpdate(
 			id,
 			{
@@ -178,7 +175,6 @@ exports.FriendReqSent = async (req, res, next) => {
 				new: true,
 			}
 		).populate("friendReqSent", "-password");
-
 		const SentReq = await User.findByIdAndUpdate(
 			userId,
 			{
@@ -190,9 +186,7 @@ exports.FriendReqSent = async (req, res, next) => {
 				new: true,
 			}
 		).populate("friendReqReceived", "-password");
-
 		user.password = undefined;
-
 		res.status(200).json({
 			success: true,
 			data: user,
@@ -207,8 +201,10 @@ exports.FriendReqSent = async (req, res, next) => {
 exports.frndreq = async (req, res, next) => {
 	const { id } = req.user;
 	const { userId } = req.body;
-	console.log(id, userId);
+
 	try {
+		console.log(userId, id);
+
 		if (!userId) {
 			return res.status(400).json({
 				success: false,
@@ -220,18 +216,24 @@ exports.frndreq = async (req, res, next) => {
 				$pull: {
 					friendReqSent: userId,
 				},
+				$pull: {
+					friendReqReceived: userId,
+				},
 				$push: {
 					friends: userId,
 				},
 			},
 			{ new: true }
 		).populate("friends", "-password");
-		console.log(user);
+
 		const friend = await User.findByIdAndUpdate(
 			userId,
 			{
 				$pull: {
 					friendReqReceived: id,
+				},
+				$pull: {
+					friendReqSent: id,
 				},
 				$push: {
 					friends: id,
@@ -241,8 +243,9 @@ exports.frndreq = async (req, res, next) => {
 				new: true,
 			}
 		).populate("friends", "-password");
-		console.log(friend);
+
 		res.status(200).json({
+			user,
 			success: true,
 		});
 	} catch (err) {

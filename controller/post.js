@@ -131,12 +131,15 @@ exports.deletePost = async (req, res) => {
 };
 
 exports.getAllPost = async (req, res) => {
+	const { friendsId } = req.body;
+
+	const { id } = req.user;
+
 	try {
-		const post = await Post.find()
+		const post = await Post.find({ postedBy: { $in: friendsId.concat(id) } })
 			.sort({ createdAt: -1 })
 			.populate("postedBy", "_id name")
 			.populate("comments.commentedBy", "_id name");
-
 		res.json({
 			success: true,
 			data: post,

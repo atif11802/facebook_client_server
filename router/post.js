@@ -25,7 +25,7 @@ router.patch(
 	updatepost
 );
 router.delete("/deletePost/:postId", requireSignin, deletePost);
-router.get("/getAllPost", requireSignin, getAllPost);
+router.post("/getAllPost/", requireSignin, getAllPost);
 router.patch("/likePost/:postId", requireSignin, likePost);
 router.patch("/commentPost/:postId", requireSignin, commentPost);
 
