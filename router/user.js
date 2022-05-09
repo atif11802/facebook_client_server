@@ -7,6 +7,7 @@ const {
 	FriendReqSent,
 
 	frndreq,
+	searchUser,
 } = require("../controller/user");
 const { requireSignin } = require("../config/token");
 const upload = require("../multer");
@@ -27,5 +28,6 @@ router.delete("/deleteUser", requireSignin, deleteUser);
 router.patch("/about", requireSignin, about);
 router.patch("/freindRequestSent", requireSignin, FriendReqSent);
 router.patch("/acceptreq", requireSignin, frndreq);
+router.post("/search", searchUser);
 
 module.exports = router;

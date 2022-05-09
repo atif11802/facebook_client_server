@@ -254,3 +254,21 @@ exports.frndreq = async (req, res, next) => {
 		});
 	}
 };
+
+exports.searchUser = async (req, res, next) => {
+	try {
+		const { search } = req.query;
+		const users = await User.find({
+			name: { $regex: search, $options: "i" },
+		}).select("-password");
+
+		res.status(200).json({
+			success: true,
+			data: users,
+		});
+	} catch (err) {
+		res.status(500).json({
+			error: err,
+		});
+	}
+};
