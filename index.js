@@ -6,6 +6,8 @@ const connectDB = require("./db/db");
 const authRoutes = require("./router/auth");
 const postRoutes = require("./router/post");
 const userRoutes = require("./router/user");
+const chatRoutes = require("./router/chat");
+const messageRoutes = require("./router/message");
 const cors = require("cors");
 const bodyParser = require("body-parser");
 
@@ -22,6 +24,8 @@ app.use(cors());
 app.use("/api/auth", authRoutes);
 app.use("/api/post", postRoutes);
 app.use("/api/user", userRoutes);
+app.use("/api/chat", chatRoutes);
+app.use("/api/message", messageRoutes);
 
 app.listen(port, () => {
 	console.log(`Server is running on port ${port}`);
