@@ -12,7 +12,7 @@ const cors = require("cors");
 const bodyParser = require("body-parser");
 
 const http = require("http");
-const { addUser, removeUser } = require("./user");
+const { addUser, removeUser, getUser } = require("./user");
 
 const server = http.createServer(app);
 const io = require("socket.io")(server, {
@@ -45,7 +45,7 @@ io.on("connection", (socket) => {
 		}
 
 		socket.join(user.room);
-		console.log(user, "user");
+
 		// socket.broadcast.to(user.room).emit("message", {
 		// 	_id: "admin",
 		// 	message: `${user.userId} has joined!`,
@@ -54,6 +54,20 @@ io.on("connection", (socket) => {
 		// 	_id: "admin",
 		// 	message: `${user.userId}, welcome to ${user.room}`,
 		// });
+	});
+
+	socket.on("sendMessage", (message) => {
+		const user = getUser(socket.id);
+
+		// console.log(user, message);
+
+		socket
+			// .to(user.room)
+			.emit("msg", {
+				_id: message.sender,
+				sender: message.sender,
+				message: message.message,
+			});
 	});
 
 	socket.on("disconnect", () => {
