@@ -5,7 +5,7 @@ exports.addPost = async (req, res) => {
 	const { id } = req.user;
 	const { body } = req.body;
 
-	console.log(body);
+	// console.log(body);
 
 	try {
 		const postPictures = req.files;

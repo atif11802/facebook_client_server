@@ -6,7 +6,7 @@ exports.makeChat = async (req, res) => {
 	const { id } = req.user;
 	try {
 		const { participants, isGroupChat, roomName } = req.body;
-		console.log(participants[0], participants[1]);
+
 		let chat = await Chat
 			// findOne({ participants })
 			// .findOne({ participants })
