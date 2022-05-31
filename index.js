@@ -12,7 +12,7 @@ const cors = require("cors");
 const bodyParser = require("body-parser");
 
 const http = require("http");
-const { addUser, removeUser, getUser } = require("./user");
+const { addUser, removeUser, getUser, getUsersInRoom } = require("./user");
 
 const server = http.createServer(app);
 const io = require("socket.io")(server, {
@@ -47,6 +47,10 @@ io.on("connection", (socket) => {
 		// console.log(`${user.userId} has joined ${user.room}`);
 		socket.join(user.room);
 
+		socket.to(user.room).emit("roomData", {
+			users: getUsersInRoom(user.room),
+		});
+
 		// socket.broadcast.to(user.room).emit("msg", {
 		// 	_id: "admin",
 		// 	message: `${user.userId} has joined!`,
@@ -59,11 +63,17 @@ io.on("connection", (socket) => {
 
 	socket.on("sendMessage", (message) => {
 		const user = getUser(socket.id);
-
+		// console.log(message);
 		// console.log(user);
 		// console.log(`${user.userId} dd ${user.room}`);
-		socket.to(user.room).emit("msg", {
-			_id: message.sender,
+		// socket.in(user.room).emit("msg", {
+		// 	_id: user.userId,
+		// 	sender: message.sender,
+		// 	message: message.message,
+		// });
+
+		io.in(user.room).emit("msg", {
+			_id: user.userId,
 			sender: message.sender,
 			message: message.message,
 		});
