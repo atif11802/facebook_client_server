@@ -44,13 +44,14 @@ io.on("connection", (socket) => {
 			return callback(error);
 		}
 
+		// console.log(`${user.userId} has joined ${user.room}`);
 		socket.join(user.room);
 
-		// socket.broadcast.to(user.room).emit("message", {
+		// socket.broadcast.to(user.room).emit("msg", {
 		// 	_id: "admin",
 		// 	message: `${user.userId} has joined!`,
 		// });
-		// socket.emit("message", {
+		// socket.emit("msg", {
 		// 	_id: "admin",
 		// 	message: `${user.userId}, welcome to ${user.room}`,
 		// });
@@ -59,8 +60,8 @@ io.on("connection", (socket) => {
 	socket.on("sendMessage", (message) => {
 		const user = getUser(socket.id);
 
-		console.log(user, message);
-
+		// console.log(user);
+		// console.log(`${user.userId} dd ${user.room}`);
 		socket.to(user.room).emit("msg", {
 			_id: message.sender,
 			sender: message.sender,
