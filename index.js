@@ -59,15 +59,13 @@ io.on("connection", (socket) => {
 	socket.on("sendMessage", (message) => {
 		const user = getUser(socket.id);
 
-		// console.log(user, message);
+		console.log(user, message);
 
-		socket
-			// .to(user.room)
-			.emit("msg", {
-				_id: message.sender,
-				sender: message.sender,
-				message: message.message,
-			});
+		socket.to(user.room).emit("msg", {
+			_id: message.sender,
+			sender: message.sender,
+			message: message.message,
+		});
 	});
 
 	socket.on("disconnect", () => {
