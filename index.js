@@ -26,7 +26,7 @@ connectDB();
 
 app.use(express.json());
 
-app.get("/okay", (req, res) => {
+app.get("/", (req, res) => {
 	res.send("okay");
 });
 
