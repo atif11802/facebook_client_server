@@ -30,18 +30,10 @@ app.get("/", (req, res) => {
 	res.send("okay");
 });
 
-var whitelist = [
-	"https://facebook-clone-client-izd2xacib-atif11802.vercel.app/",
-	"http://localhost:3000/",
-];
-var corsOptions = {
-	origin: function (origin, callback) {
-		if (whitelist.indexOf(origin) !== -1) {
-			callback(null, true);
-		} else {
-			callback(new Error("Not allowed by CORS"));
-		}
-	},
+const corsOptions = {
+	origin: "*",
+	credentials: true, //access-control-allow-credentials:true
+	optionSuccessStatus: 200,
 };
 
 app.use(cors(corsOptions));
